@@ -4,28 +4,36 @@
 #
 Name     : perl-IO-Interface
 Version  : 1.09
-Release  : 1
+Release  : 2
 URL      : https://cpan.metacpan.org/authors/id/L/LD/LDS/IO-Interface-1.09.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/L/LD/LDS/IO-Interface-1.09.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libi/libio-interface-perl/libio-interface-perl_1.09-1.debian.tar.xz
 Summary  : 'Access and modify network interface card configuration'
 Group    : Development/Tools
 License  : Artistic-1.0-Perl Artistic-2.0
-Requires: perl-IO-Interface-lib
-Requires: perl-IO-Interface-license
-Requires: perl-IO-Interface-man
-Requires: perl(Module::Build)
-BuildRequires : perl(Module::Build)
+Requires: perl-IO-Interface-lib = %{version}-%{release}
+Requires: perl-IO-Interface-license = %{version}-%{release}
+BuildRequires : buildreq-cpan
 
 %description
 LibIO-Interface-Perl
 ====================
 Perl interface to Unix network interface API
 
+%package dev
+Summary: dev components for the perl-IO-Interface package.
+Group: Development
+Requires: perl-IO-Interface-lib = %{version}-%{release}
+Provides: perl-IO-Interface-devel = %{version}-%{release}
+
+%description dev
+dev components for the perl-IO-Interface package.
+
+
 %package lib
 Summary: lib components for the perl-IO-Interface package.
 Group: Libraries
-Requires: perl-IO-Interface-license
+Requires: perl-IO-Interface-license = %{version}-%{release}
 
 %description lib
 lib components for the perl-IO-Interface package.
@@ -39,19 +47,11 @@ Group: Default
 license components for the perl-IO-Interface package.
 
 
-%package man
-Summary: man components for the perl-IO-Interface package.
-Group: Default
-
-%description man
-man components for the perl-IO-Interface package.
-
-
 %prep
-tar -xf %{SOURCE1}
-cd ..
 %setup -q -n IO-Interface-1.09
-mkdir -p %{_topdir}/BUILD/IO-Interface-1.09/deblicense/
+cd ..
+%setup -q -T -D -n IO-Interface-1.09 -b 1
+mkdir -p deblicense/
 mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/IO-Interface-1.09/deblicense/
 
 %build
@@ -69,13 +69,13 @@ fi
 
 %install
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/perl-IO-Interface
-cp LICENSE %{buildroot}/usr/share/doc/perl-IO-Interface/LICENSE
-cp deblicense/copyright %{buildroot}/usr/share/doc/perl-IO-Interface/deblicense_copyright
+mkdir -p %{buildroot}/usr/share/package-licenses/perl-IO-Interface
+cp LICENSE %{buildroot}/usr/share/package-licenses/perl-IO-Interface/LICENSE
+cp deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-IO-Interface/deblicense_copyright
 if test -f Makefile.PL; then
-make pure_install PERL_INSTALL_ROOT=%{buildroot}
+make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
-./Build install --installdirs=site --destdir=%{buildroot}
+./Build install --installdirs=vendor --destdir=%{buildroot}
 fi
 find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
 find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
@@ -84,19 +84,19 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/x86_64-linux-thread-multi/IO/Interface.pm
-/usr/lib/perl5/site_perl/5.26.1/x86_64-linux-thread-multi/IO/Interface/Simple.pm
+/usr/lib/perl5/vendor_perl/5.26.1/x86_64-linux-thread-multi/IO/Interface.pm
+/usr/lib/perl5/vendor_perl/5.26.1/x86_64-linux-thread-multi/IO/Interface/Simple.pm
 
-%files lib
-%defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/x86_64-linux-thread-multi/auto/IO/Interface/Interface.so
-
-%files license
-%defattr(-,root,root,-)
-/usr/share/doc/perl-IO-Interface/LICENSE
-/usr/share/doc/perl-IO-Interface/deblicense_copyright
-
-%files man
+%files dev
 %defattr(-,root,root,-)
 /usr/share/man/man3/IO::Interface.3
 /usr/share/man/man3/IO::Interface::Simple.3
+
+%files lib
+%defattr(-,root,root,-)
+/usr/lib/perl5/vendor_perl/5.26.1/x86_64-linux-thread-multi/auto/IO/Interface/Interface.so
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/perl-IO-Interface/LICENSE
+/usr/share/package-licenses/perl-IO-Interface/deblicense_copyright
