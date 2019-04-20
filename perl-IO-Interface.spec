@@ -4,11 +4,11 @@
 #
 Name     : perl-IO-Interface
 Version  : 1.09
-Release  : 10
+Release  : 11
 URL      : https://cpan.metacpan.org/authors/id/L/LD/LDS/IO-Interface-1.09.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/L/LD/LDS/IO-Interface-1.09.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libi/libio-interface-perl/libio-interface-perl_1.09-1.debian.tar.xz
-Summary  : 'Access and modify network interface card configuration'
+Summary  : Perl extension for access to network card configuration information
 Group    : Development/Tools
 License  : Artistic-1.0-Perl Artistic-2.0
 Requires: perl-IO-Interface-lib = %{version}-%{release}
@@ -25,6 +25,7 @@ Summary: dev components for the perl-IO-Interface package.
 Group: Development
 Requires: perl-IO-Interface-lib = %{version}-%{release}
 Provides: perl-IO-Interface-devel = %{version}-%{release}
+Requires: perl-IO-Interface = %{version}-%{release}
 
 %description dev
 dev components for the perl-IO-Interface package.
@@ -52,7 +53,7 @@ license components for the perl-IO-Interface package.
 cd ..
 %setup -q -T -D -n IO-Interface-1.09 -b 1
 mkdir -p deblicense/
-mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/IO-Interface-1.09/deblicense/
+cp -r %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/IO-Interface-1.09/deblicense/
 
 %build
 export http_proxy=http://127.0.0.1:9/
