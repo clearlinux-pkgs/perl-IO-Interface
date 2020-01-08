@@ -4,15 +4,15 @@
 #
 Name     : perl-IO-Interface
 Version  : 1.09
-Release  : 13
+Release  : 14
 URL      : https://cpan.metacpan.org/authors/id/L/LD/LDS/IO-Interface-1.09.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/L/LD/LDS/IO-Interface-1.09.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libi/libio-interface-perl/libio-interface-perl_1.09-1.debian.tar.xz
-Summary  : Perl extension for access to network card configuration information
+Summary  : 'Access and modify network interface card configuration'
 Group    : Development/Tools
 License  : Artistic-1.0-Perl Artistic-2.0
-Requires: perl-IO-Interface-lib = %{version}-%{release}
 Requires: perl-IO-Interface-license = %{version}-%{release}
+Requires: perl-IO-Interface-perl = %{version}-%{release}
 BuildRequires : buildreq-cpan
 
 %description
@@ -23,21 +23,11 @@ Perl interface to Unix network interface API
 %package dev
 Summary: dev components for the perl-IO-Interface package.
 Group: Development
-Requires: perl-IO-Interface-lib = %{version}-%{release}
 Provides: perl-IO-Interface-devel = %{version}-%{release}
 Requires: perl-IO-Interface = %{version}-%{release}
 
 %description dev
 dev components for the perl-IO-Interface package.
-
-
-%package lib
-Summary: lib components for the perl-IO-Interface package.
-Group: Libraries
-Requires: perl-IO-Interface-license = %{version}-%{release}
-
-%description lib
-lib components for the perl-IO-Interface package.
 
 
 %package license
@@ -48,18 +38,28 @@ Group: Default
 license components for the perl-IO-Interface package.
 
 
+%package perl
+Summary: perl components for the perl-IO-Interface package.
+Group: Default
+Requires: perl-IO-Interface = %{version}-%{release}
+
+%description perl
+perl components for the perl-IO-Interface package.
+
+
 %prep
 %setup -q -n IO-Interface-1.09
-cd ..
-%setup -q -T -D -n IO-Interface-1.09 -b 1
+cd %{_builddir}
+tar xf %{_sourcedir}/libio-interface-perl_1.09-1.debian.tar.xz
+cd %{_builddir}/IO-Interface-1.09
 mkdir -p deblicense/
-cp -r %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/IO-Interface-1.09/deblicense/
+cp -r %{_builddir}/debian/* %{_builddir}/IO-Interface-1.09/deblicense/
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
+export LANG=C.UTF-8
 if test -f Makefile.PL; then
 %{__perl} Makefile.PL
 make  %{?_smp_mflags}
@@ -71,8 +71,8 @@ fi
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/perl-IO-Interface
-cp LICENSE %{buildroot}/usr/share/package-licenses/perl-IO-Interface/LICENSE
-cp deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-IO-Interface/deblicense_copyright
+cp %{_builddir}/IO-Interface-1.09/LICENSE %{buildroot}/usr/share/package-licenses/perl-IO-Interface/a2f577cb02ca740b64c1398d64a4b9cc4b45a19d
+cp %{_builddir}/IO-Interface-1.09/deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-IO-Interface/233bdc16b94c4f3c7411c49c4cedea3779e9de1d
 if test -f Makefile.PL; then
 make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
@@ -85,19 +85,19 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.2/x86_64-linux-thread-multi/IO/Interface.pm
-/usr/lib/perl5/vendor_perl/5.28.2/x86_64-linux-thread-multi/IO/Interface/Simple.pm
 
 %files dev
 %defattr(-,root,root,-)
 /usr/share/man/man3/IO::Interface.3
 /usr/share/man/man3/IO::Interface::Simple.3
 
-%files lib
-%defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.2/x86_64-linux-thread-multi/auto/IO/Interface/Interface.so
-
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/perl-IO-Interface/LICENSE
-/usr/share/package-licenses/perl-IO-Interface/deblicense_copyright
+/usr/share/package-licenses/perl-IO-Interface/233bdc16b94c4f3c7411c49c4cedea3779e9de1d
+/usr/share/package-licenses/perl-IO-Interface/a2f577cb02ca740b64c1398d64a4b9cc4b45a19d
+
+%files perl
+%defattr(-,root,root,-)
+/usr/lib/perl5/vendor_perl/5.30.1/x86_64-linux-thread-multi/IO/Interface.pm
+/usr/lib/perl5/vendor_perl/5.30.1/x86_64-linux-thread-multi/IO/Interface/Simple.pm
+/usr/lib/perl5/vendor_perl/5.30.1/x86_64-linux-thread-multi/auto/IO/Interface/Interface.so
