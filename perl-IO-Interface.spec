@@ -4,7 +4,7 @@
 #
 Name     : perl-IO-Interface
 Version  : 1.09
-Release  : 16
+Release  : 17
 URL      : https://cpan.metacpan.org/authors/id/L/LD/LDS/IO-Interface-1.09.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/L/LD/LDS/IO-Interface-1.09.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libi/libio-interface-perl/libio-interface-perl_1.09-1.debian.tar.xz
@@ -98,6 +98,6 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files perl
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.30.3/x86_64-linux-thread-multi/IO/Interface.pm
-/usr/lib/perl5/vendor_perl/5.30.3/x86_64-linux-thread-multi/IO/Interface/Simple.pm
-/usr/lib/perl5/vendor_perl/5.30.3/x86_64-linux-thread-multi/auto/IO/Interface/Interface.so
+/usr/lib/perl5/vendor_perl/5.32.1/x86_64-linux-thread-multi/IO/Interface.pm
+/usr/lib/perl5/vendor_perl/5.32.1/x86_64-linux-thread-multi/IO/Interface/Simple.pm
+/usr/lib/perl5/vendor_perl/5.32.1/x86_64-linux-thread-multi/auto/IO/Interface/Interface.so
