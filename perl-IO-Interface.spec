@@ -4,7 +4,7 @@
 #
 Name     : perl-IO-Interface
 Version  : 1.09
-Release  : 26
+Release  : 27
 URL      : https://cpan.metacpan.org/authors/id/L/LD/LDS/IO-Interface-1.09.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/L/LD/LDS/IO-Interface-1.09.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libi/libio-interface-perl/libio-interface-perl_1.09-1.debian.tar.xz
